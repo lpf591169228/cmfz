@@ -5,9 +5,9 @@ import java.io.Serializable;
 /**
  * Created by lenovo on 2018/9/4.
  */
-public class Admin implements Serializable{
+public class Admin implements Serializable {
     private Integer id;
-    private String  name;
+    private String name;
     private String password;
 
     public Admin() {
@@ -71,8 +71,6 @@ public class Admin implements Serializable{
                 ", password='" + password + '\'' +
                 '}';
     }
-
-
 
 
 }
