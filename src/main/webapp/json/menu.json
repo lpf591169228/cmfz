@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "iconCls": "icon-add",
+    "title": "轮播图",
+    "href": "",
+    "children": [
+      {
+        "id": 2,
+        "iconCls": "icon-add",
+        "title": "轮播图管理",
+        "href": "/datagird/banner.jsp"
+      },
+      {
+        "id": 3,
+        "iconCls": "icon-add",
+        "title": "轮播图管理2",
+        "href": "/datagird/albun.jsp"
+      },
+      {
+        "id": 4,
+        "iconCls": "icon-add",
+        "title": "轮播图管理3",
+        "href": "/datagird/albun.jsp"
+      }
+    ]
+  }
+]
