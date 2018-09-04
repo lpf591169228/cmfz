@@ -7,43 +7,81 @@
     <meta http-equiv="description" content="this is my page">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
-	<link rel="icon" href="img/favicon.ico" type="image/x-icon"/>
-	<link rel="stylesheet" href="css/common.css" type="text/css"></link>
-	<link rel="stylesheet" href="css/login.css" type="text/css"></link>
+	<link rel="icon" href="${pageContext.request.contextPath}/img/favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/common.css" type="text/css"></link>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css" type="text/css"></link>
 	<script type="text/javascript" src="script/jquery.js"></script>
 	<script type="text/javascript" src="script/common.js"></script>
 	<script type="text/javascript">
 
+        //更换验证码
         $(function () {
             //点击更换验证码：
-            $("#captchaImage").click(function () {//点击更换验证码
-                alert("自己做");
+            $("#captchaImage").click(function () {
+                //点击更换验证码
+                $("#captchaImage").prop("src", "${pageContext.request.contextPath}/image/image.do?" + (new Date()).getTime())
             });
 
-            //  form 表单提交
+
+            //验证码页面判断
+            $(function () {
+                $("#enCode").blur(function () {
+                    var imagecode = $(this).val();
+
+                    $.ajax({
+                        type: "post",
+                        url: "${pageContext.request.contextPath}/image/code.do",
+                        data: "code=" + imagecode,
+                        dataType: "text",
+                        success: function (data) {
+                            if (data == 1) {
+                                $("#s").text("√")
+                            } else {
+                                $("#s").text("验证码有误");
+                            }
+
+                        }
+
+                    });
+                });
+            });
+
+
+            //form 表单提交
             $("#loginForm").bind("submit", function () {
-                alert("自己做");
-                return false;
+                var test = $(".text").val();
+                var s = $("#s").val();
+                if (test != null && s == "√") {
+
+                    return true;
+                } else {
+                    alert("用户名或密码不能为空");
+                    return false;
+                }
+
             });
         });
+
 	</script>
 </head>
 <body>
 
 <div class="login">
-	<form id="loginForm" action="../back/index.html" method="post">
-
+	<form id="loginForm" action="${pageContext.request.contextPath}/admin/login.do" method="post">
 		<table>
+			<thead>
+			<p align="center">${requestScope.error}</p>
+			</thead>
 			<tbody>
 			<tr>
 				<td width="190" rowspan="2" align="center" valign="bottom">
-					<img src="img/header_logo.gif"/>
+					<img src="${pageContext.request.contextPath}/img/header_logo.gif"/>
 				</td>
 				<th>
 					用户名:
 				</th>
 				<td>
-					<input type="text" name="user.name" class="text" value="xxx" maxlength="20"/>
+					<input type="text" name="name" class="text" value="请输入用户名" maxlength="20"/>
 				</td>
 			</tr>
 			<tr>
@@ -51,17 +89,20 @@
 					密&nbsp;&nbsp;&nbsp;码:
 				</th>
 				<td>
-					<input type="password" name="user.password" class="text" value="xxx" maxlength="20"
+					<input type="password" name="password" class="text" maxlength="20"
 						   autocomplete="off"/>
 				</td>
+
+
 			</tr>
 
 			<tr>
 				<td>&nbsp;</td>
 				<th>验证码:</th>
 				<td>
-					<input type="text" id="enCode" name="enCode" class="text captcha" maxlength="4" autocomplete="off"/>
-					<img id="captchaImage" class="captchaImage" src="img/captcha.jpg" title="点击更换验证码"/>
+					<input type="text" id="enCode" name="enCode" class="text captcha" maxlength="4" autocomplete="on"/>
+					<img id="captchaImage" class="captchaImage" src="${pageContext.request.contextPath}/image/image.do"
+						 title="点击更换验证码"/><span id="s"></span>
 				</td>
 			</tr>
 			<tr>
